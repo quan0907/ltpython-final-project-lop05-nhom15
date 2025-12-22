@@ -70,4 +70,19 @@ Trong bài tập lớn môn "Lập trình Python", nhóm 15 chúng em lựa ch�
 ├── app.py # Giao diện Streamlit
 ├── requirements.txt # Các thư viện cần thiết để chạy chương trình
 └── README.md
+```
+## 7. Hướng dẫn chạy chương trình
 
+### Bước 1: Clone repository
+```bash
+git clone <link-repo-github>
+cd <ten-thu-muc-repo>
+```
+### Bước 2: Cài đặt các thư viện cần thiết
+```bash
+pip install -r requirements.txt
+```
+### Bước 3: Chạy file app.py
+```bash
+streamlit run app.py
+```
