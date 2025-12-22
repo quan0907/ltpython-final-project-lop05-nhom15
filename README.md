@@ -75,8 +75,8 @@ Trong bài tập lớn môn "Lập trình Python", nhóm 15 chúng em lựa ch�
 
 ### Bước 1: Clone repository
 ```bash
-git clone <link-repo-github>
-cd <ten-thu-muc-repo>
+git clone https://github.com/quan0907/ltpython-final-project-lop05-nhom15
+cd ltpython-final-project-lop05-nhom15
 ```
 ### Bước 2: Cài đặt các thư viện cần thiết
 ```bash
