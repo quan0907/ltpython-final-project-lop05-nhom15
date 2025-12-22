@@ -4,11 +4,11 @@
 Trong bài tập lớn môn "Lập trình Python", nhóm 15 chúng em lựa chọn một tập dữ liệu thực tế từ Kaggle để thực hiện việc phân tích, làm sạch, chuẩn hóa dữ liệu, trực quan hóa và xây dựng giao diện chương trình.
 
 ## 2. Thành viên nhóm
-Trần Phúc Bảo - 24133005 - Trực quan hoá dữ liệu
-Phạm Quốc Duy - 24133008 - Phân tích dữ liệu
-Võ Lê Hoàng Đức - 24133013 - Phân tích dữ liệu
-Trần Anh Khoa - 24133031 - Phân tích dữ liệu
-Phạm Thế Quân - 24134057 - Làm sạch dữ liệu
+- Trần Phúc Bảo - 24133005 - Trực quan hoá dữ liệu
+- Phạm Quốc Duy - 24133008 - Phân tích dữ liệu
+- Võ Lê Hoàng Đức - 24133013 - Phân tích dữ liệu
+- Trần Anh Khoa - 24133031 - Phân tích dữ liệu
+- Phạm Thế Quân - 24134057 - Làm sạch dữ liệu
 
 ## 3. Thông tin về dataset
 - **Tên dataset**: cafe_sales.csv
