@@ -58,8 +58,8 @@ Trong bài tập lớn môn "Lập trình Python", nhóm 15 chúng em lựa ch�
 │   ├── cafe_sales_cleaned.csv # Dataset sau khi làm sạch
 ├── analysis/
 │   ├── customer_behavior.py # Phân tích hành vi khách hàng trong việc lựa chọn phương thức thanh toán và địa điểm giao dịch
-│   ├── product_performance.py # Phân tích sản phẩm bán chạy, ế theo 2 loại là số lượng và doanh thu
-│   ├── revenue_trend.py # Phân tích doanh thu hàng tháng
+│   ├── product_performance.py # Doanh thu, số lượng bán ra của các sản phẩm
+│   ├── revenue_trend.py # Phân tích xu hướng doanh thu hàng tháng
 │   └── stats_metrics.py # Phân tích phân bố và giá trị tổng chi đặc trưng
 ├── data_processing/
 │   └── cleaner.py # Làm sạch và chuẩn hoá dữ liệu
