@@ -53,22 +53,35 @@ Trong bài tập lớn môn "Lập trình Python", nhóm 15 chúng em lựa ch�
 ## 6. Cấu trúc thư mục và chương trình
 ```text
 .
+.
 ├── data/
-│   ├── cafe_sales.csv # Dataset gốc
-│   ├── cafe_sales_cleaned.csv # Dataset sau khi làm sạch
-├── analysis/
-│   ├── customer_behavior.py # Phân tích hành vi khách hàng trong việc lựa chọn phương thức thanh toán và địa điểm giao dịch
-│   ├── product_performance.py # Doanh thu, số lượng bán ra của các sản phẩm
-│   ├── revenue_trend.py # Phân tích xu hướng doanh thu hàng tháng
-│   └── stats_metrics.py # Phân tích phân bố và giá trị tổng chi đặc trưng
+│   ├── cafe_sales.csv              # Dataset gốc
+│   └── cafe_sales_cleaned.csv      # Dataset sau khi làm sạch
+│
 ├── data_processing/
-│   └── cleaner.py # Làm sạch và chuẩn hoá dữ liệu
+│   └── cleaner.py                  # Làm sạch và chuẩn hoá dữ liệu
+│
+├── customer_behavior/
+│   ├── analysis.py                 # Phân tích hành vi khách hàng (phương thức thanh toán, địa điểm)
+│   └── visualization.py            # Trực quan hoá hành vi khách hàng
+│
+├── product_performance/
+│   ├── analysis.py                 # Doanh thu, số lượng bán ra của sản phẩm
+│   └── visualization.py            # Biểu đồ hiệu suất sản phẩm
+│
+├── revenue_trend/
+│   ├── analysis.py                 # Phân tích xu hướng doanh thu theo thời gian
+│   └── visualization.py            # Trực quan xu hướng doanh thu
+│
+├── stats_metrics/
+│   ├── analysis.py                 # Phân tích phân bố, thống kê đặc trưng
+│   └── visualization.py            # Trực quan các chỉ số thống kê
+│
 ├── clean_logging/
-│   └── clean.log
-├── visualization/
-│   └── visualizer.py # Trực quan hoá dữ liệu
-├── app.py # Giao diện Streamlit
-├── requirements.txt # Các thư viện cần thiết để chạy chương trình
+│   └── clean.log                   # Log quá trình làm sạch dữ liệu
+│
+├── app.py                          # Giao diện Streamlit (gọi các module)
+├── requirements.txt                # Các thư viện cần thiết
 └── README.md
 ```
 ## 7. Hướng dẫn chạy chương trình
