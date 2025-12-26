@@ -23,4 +23,5 @@ def product_performance(df):
     # Sắp xếp theo doanh thu giảm dần
     product_stats = product_stats.sort_values(by='Tổng doanh thu', ascending=False)
 
+
     return product_stats
