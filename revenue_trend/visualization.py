@@ -13,6 +13,7 @@ def visualize_revenue_trend(monthly_revenue):
         )
         return fig
 
+    # Bieu do duong - Xu huong theo thoi gian
     ax.plot(monthly_revenue.index, monthly_revenue.values)
     ax.set_title("Xu huong doanh thu theo thoi gian")
     ax.set_xlabel("Thoi gian")
@@ -21,3 +22,4 @@ def visualize_revenue_trend(monthly_revenue):
 
     fig.tight_layout()
     return fig
+
