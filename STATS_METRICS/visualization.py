@@ -1,29 +1,43 @@
-import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
 
-def calculate_full_stats(df):
-    # Lấy dữ liệu cột Total Spent
-    target_col = df['Total Spent']
+def plot_stat_distribution(df, column):
+    fig, (ax_hist, ax_box) = plt.subplots(2, 1, figsize=(10, 7), 
+                                          gridspec_kw={"height_ratios": (.7, .3)})
     
-    # Tính các chỉ số mô tả mặc định
-    desc_stats = target_col.describe().to_frame().T
+    # Vẽ Histogram bằng Matplotlib thuần
+    ax_hist.hist(df[column], bins=20, color='skyblue', edgecolor='black')
+    ax_hist.set_title(f'Distribution Analysis: {column}')
+    ax_hist.set_ylabel('Frequency')
     
-    # Tính thêm median và mode
-    desc_stats['median'] = target_col.median()
-    desc_stats['mode'] = target_col.mode()[0]
+    # Vẽ Boxplot bằng Matplotlib thuần
+    ax_box.boxplot(df[column], vert=False, patch_artist=True, 
+                   boxprops=dict(facecolor='lightcoral'))
+    ax_box.set_xlabel(f'Value {column}')
     
-    # Sắp xếp và giữ lại đúng các cột bạn yêu cầu
-    ordered_cols = ["count", "mean", "median", "mode", "min", "25%", "50%", "75%", "max"]
-    return desc_stats[ordered_cols]
+    plt.tight_layout()
+    return fig
 
-def find_outliers_iqr(df, column):
-    Q1 = df[column].quantile(0.25)
-    Q3 = df[column].quantile(0.75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
-    return outliers, lower_bound, upper_bound
-
-def get_correlation_matrix(df):
-    return df.select_dtypes(include=[np.number]).corr()
+def plot_heatmap(corr_matrix):
+    fig, ax = plt.subplots(figsize=(8, 6))
+    
+    # Sử dụng imshow của Matplotlib để thay thế Heatmap Seaborn
+    im = ax.imshow(corr_matrix, cmap='coolwarm')
+    
+    # Hiển thị thanh giá trị bên cạnh
+    plt.colorbar(im)
+    
+    # Thiết lập nhãn trục
+    ax.set_xticks(range(len(corr_matrix.columns)))
+    ax.set_yticks(range(len(corr_matrix.columns)))
+    ax.set_xticklabels(corr_matrix.columns)
+    ax.set_yticklabels(corr_matrix.columns)
+    
+    # Ghi giá trị tương quan vào từng ô bằng vòng lặp
+    for i in range(len(corr_matrix.columns)):
+        for j in range(len(corr_matrix.columns)):
+            ax.text(j, i, f'{corr_matrix.iloc[i, j]:.2f}', 
+                    ha="center", va="center", color="black")
+    
+    ax.set_title('Correlation Matrix')
+    plt.tight_layout()
+    return fig
