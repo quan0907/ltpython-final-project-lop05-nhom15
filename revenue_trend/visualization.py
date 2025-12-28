@@ -1,48 +1,23 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-DATA_PATH = "data/cafe_sales_cleaned.csv"
-df = pd.read_csv(
-    DATA_PATH,
-    parse_dates=["Transaction Date"]
-)
+# Biểu đồ xu hướng doanh thu theo thời gian
+def visualize_revenue_trend(monthly_revenue):
+    fig, ax = plt.subplots()
+    if monthly_revenue is None or len(monthly_revenue) == 0:
+        ax.text(
+            0.5, 0.5,
+            "No data available",
+            ha="center", va="center",
+            transform=ax.transAxes
+        )
+        return fig
 
-# 1. Tổng hợp doanh thu theo tháng
-monthly_revenue = (
-    df.resample("ME", on="Transaction Date")["Total Spent"]
-    .sum()
-    .sort_index()
-)
+    ax.plot(monthly_revenue.index, monthly_revenue.values)
+    ax.set_title("Xu huong doanh thu theo thoi gian")
+    ax.set_xlabel("Thoi gian")
+    ax.set_ylabel("Doanh thu")
+    ax.tick_params(axis="x", rotation=45)
 
-# 2. Xu hướng doanh thu
-plt.figure()
-plt.plot(monthly_revenue.index, monthly_revenue.values)
-plt.xlabel("Thoi gian")
-plt.ylabel("Doanh thu")
-plt.title("Xu huong doanh thu theo thoi gian")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
-
-# 3. So sánh doanh thu giữa các tháng
-plt.figure()
-plt.bar(monthly_revenue.index, monthly_revenue.values)
-plt.xlabel("Thoi gian")
-plt.ylabel("Doanh thu")
-plt.title("So sanh doanh thu theo thang")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
-
-# 4. Trung bình trượt
-ma3 = monthly_revenue.rolling(3).mean()
-plt.figure()
-plt.plot(monthly_revenue.index, monthly_revenue.values, label="Doanh thu thang")
-plt.plot(ma3.index, ma3.values, label="Trung binh truot 3 thang")
-plt.xlabel("Thoi gian")
-plt.ylabel("Doanh thu")
-plt.title("Xu huong doanh thu")
-plt.legend()
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+    fig.tight_layout()
+    return fig
