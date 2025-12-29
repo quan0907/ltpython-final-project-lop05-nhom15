@@ -49,12 +49,13 @@ def clean_data(df: pd.DataFrame):
         - Quantity, Price Per Unit: Giá trị không hợp lệ -> NaN
         - Total Spent: 
             + Nếu chứa giá trị không hợp lệ mà có đầy đủ Quantity, Price Per Unit -> Điền theo công thức Quantity * Price Per Unit
-            + Nếu chứa giá trị không hợp lệ mà thiếu Quantity hoặc Price Per Unint -> NaN
+            + Nếu chứa giá trị không hợp lệ mà thiếu Quantity hoặc Price Per Unit -> NaN
     3. Làm sạch cột Transaction Date: Chứa giá trị không hợp lệ -> NaN
     4. Loại trùng lặp dựa vào cột Transaction ID
     """
 
     df = df.copy()
+    total_rows = len(df)
 
     # Reset logs
     CLEANING_LOGS.clear()
@@ -87,19 +88,19 @@ def clean_data(df: pd.DataFrame):
     if "Item" in df.columns:
         count_item_unknown = (df["Item"] == "Unknown").sum()
         cat_logs.append(
-            f"Item: {count_item_unknown} values standardized to 'Unknown' ({(count_item_unknown/10000)*100:.2f}%)"
+            f"Item: {count_item_unknown} values standardized to 'Unknown' ({(count_item_unknown/total_rows)*100:.2f}%)"
         )
 
     if "Payment Method" in df.columns:
         count_payment_unknown = (df["Payment Method"] == "Unknown").sum()
         cat_logs.append(
-            f"Payment Method: {count_payment_unknown} values standardized to 'Unknown' ({(count_payment_unknown/10000)*100:2f}%)"
+            f"Payment Method: {count_payment_unknown} values standardized to 'Unknown' ({(count_payment_unknown/total_rows)*100:.2f}%)"
         )
 
     if "Location" in df.columns:
         count_location_unknown = (df["Location"] == "Unknown").sum()
         cat_logs.append(
-            f"Location: {count_location_unknown} values standardized to 'Unknown' ({(count_location_unknown/10000)*100:.2f}%)"
+            f"Location: {count_location_unknown} values standardized to 'Unknown' ({(count_location_unknown/total_rows)*100:.2f}%)"
         )
 
     if cat_logs:
@@ -107,8 +108,26 @@ def clean_data(df: pd.DataFrame):
             f.write("TÓM TẮT LOGS TRONG QUÁ TRÌNH DATA CLEANING\n")
             for line in cat_logs:
                 f.write(line + "\n")
+        for log in cat_logs:
+            CLEANING_LOGS.append(log)
+        
+    # 2. Xử lý cột Transaction Date
+    if "Transaction Date" in df.columns:
+        # Chuẩn hoá
+        df["Transaction Date"] = pd.to_datetime(
+            df["Transaction Date"], errors="coerce"
+        )
 
-    # 2. Xử lý các cột numeric
+        count_bad = df["Transaction Date"].isna().sum()
+
+        if count_bad > 0:
+            date_log = f"Transaction Date: {count_bad} missing or invalid values ({count_bad / total_rows * 100:.2f}%)"
+            with open(LOG_FILE, "a", encoding="utf-8") as f:
+                f.write(date_log + "\n")
+                
+            CLEANING_LOGS.append(date_log)
+
+    # 3. Xử lý các cột numeric
     # Chuyển đổi các cột số    
     numeric_cols = ["Quantity", "Price Per Unit", "Total Spent"]
     for col in numeric_cols:
@@ -146,27 +165,28 @@ def clean_data(df: pd.DataFrame):
             df.loc[can_calc, "Quantity"] *
             df.loc[can_calc, "Price Per Unit"]
         )  
-
-    # 3. Xử lý cột Transaction Date
-    date_logs = []
-    if "Transaction Date" in df.columns:
-        df["Transaction Date"] = pd.to_datetime(
-            df["Transaction Date"], errors="coerce"
+    # Log lại các hàng không tính lại được ở cột Total Spent do thiếu thông tin
+    if "Total Spent" in df.columns:
+        cannot_calc = (
+            df["Total Spent"].isna() &
+            (
+                df["Quantity"].isna() |
+                df["Price Per Unit"].isna()
+            )
         )
 
-        total_rows = len(df)
-        count_bad = df["Transaction Date"].isna().sum()
+        count_cannot = cannot_calc.sum()
 
-        if count_bad > 0:
-            date_logs.append(
-                f"Transaction Date: {count_bad} missing or invalid values "
-                f"({count_bad / total_rows * 100:.2f}%)"
+        if count_cannot > 0:
+            cant_cal_log = (
+                f"Total Spent: {count_cannot} values could not be recalculated "
+                f"({count_cannot / total_rows * 100:.2f}%)"
             )
 
-    if date_logs:
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            for line in date_logs:
-                f.write(line + "\n")
+            with open(LOG_FILE, "a", encoding="utf-8") as f:
+                f.write(cant_cal_log + "\n")
+
+            CLEANING_LOGS.append(cant_cal_log)
 
     # 4. Loại bỏ các dòng có Transaction ID bị lặp
     if "Transaction ID" in df.columns:
