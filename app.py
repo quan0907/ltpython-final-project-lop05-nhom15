@@ -18,7 +18,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Phân tích sản phẩm và hành vi khách hàng")
+st.title("Phân tích sản phẩm và hành vi khách hàng")
 
 
 # Load & clean data
