@@ -6,8 +6,8 @@ from product_performance import product_performance as product_perf_analysis
 from product_performance import visualization as product_perf_viz
 from STATS_METRICS import analysis as stats_analysis
 from STATS_METRICS import visualization as stats_viz
-from revenue_trend import analysis as revenue_analysis
-from revenue_trend import visualization as revenue_viz
+from total_spent_trend import analysis as total_spent_analysis
+from total_spent_trend import visualization as total_spent_viz
 from product_customer import analysis_customer as customer_analysis
 from product_customer import visualization_customer as customer_viz
 
@@ -71,7 +71,7 @@ def render_product_performance_tab(df):
     st.markdown(f"### Top {top_n} sản phẩm theo giá trị giao dịch")
     fig_rev = product_perf_viz.plot_product_performance(
         product_df,
-        metric="Tổng giá trị giao dịch"
+        "Tổng giá trị giao dịch"
     )
     st.pyplot(fig_rev)
 
@@ -109,17 +109,17 @@ def render_stats_metrics_tab(df):
     st.pyplot(fig_corr)
 
 
-def render_revenue_trend_tab(df):
+def render_total_spent_trend_tab(df):
     st.subheader("Xu hướng giá trị giao dịch theo thời gian")
 
-    monthly_revenue = revenue_analysis.get_monthly_revenue(df)
-    summary = revenue_analysis.get_revenue_summary(monthly_revenue)
+    monthly_total_spent = total_spent_analysis.get_monthly_total_spent(df)
+    summary = total_spent_analysis.get_total_spent_summary(monthly_total_spent)
 
     st.markdown("### Tóm tắt xu hướng")
     if summary:
         col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Tổng giá trị giao dịch", f"${summary['total_revenue']:,.2f}")
-        col2.metric("Trung bình / tháng", f"${summary['average_monthly_revenue']:,.2f}")
+        col1.metric("Tổng giá trị giao dịch", f"${summary['total_total_spent']:,.2f}")
+        col2.metric("Trung bình / tháng", f"${summary['average_monthly_total_spent']:,.2f}")
         col3.metric("Tháng cao nhất", summary['max_month'].strftime("%Y-%m"))
         col4.metric("Tháng thấp nhất", summary['min_month'].strftime("%Y-%m"))
     else:
@@ -128,7 +128,7 @@ def render_revenue_trend_tab(df):
     st.divider()
 
     st.markdown("### Biểu đồ xu hướng theo tháng")
-    fig_trend = revenue_viz.visualize_revenue_trend(monthly_revenue)
+    fig_trend = total_spent_viz.visualize_total_spent_trend(monthly_total_spent)
     st.pyplot(fig_trend)
 
 
@@ -167,7 +167,7 @@ with tab4:
     render_stats_metrics_tab(cleaned_df)
 
 with tab5:
-    render_revenue_trend_tab(cleaned_df)
+    render_total_spent_trend_tab(cleaned_df)
 
 with tab6:
     render_customer_behavior_tab(cleaned_df)
