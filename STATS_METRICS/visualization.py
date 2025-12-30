@@ -9,9 +9,20 @@ def plot_stat_distribution(df, column):
     ax_hist.set_title(f'Distribution Analysis: {column}')
     ax_hist.set_ylabel('Frequency')
     
+    # Loại bỏ NaN
+    values = df[column].dropna()
+
     # Vẽ Boxplot bằng Matplotlib thuần
-    ax_box.boxplot(df[column], vert=False, patch_artist=True, 
-                   boxprops=dict(facecolor='lightcoral'))
+    if len(values) > 0:
+        ax_box.boxplot(
+            values,
+            vert=False,
+            patch_artist=True,
+            boxprops=dict(facecolor='lightcoral')
+        )
+    else:
+        ax_box.text(0.5, 0.5, "No valid data for boxplot",
+                    ha='center', va='center', transform=ax_box.transAxes)
     ax_box.set_xlabel(f'Value {column}')
     
     plt.tight_layout()
