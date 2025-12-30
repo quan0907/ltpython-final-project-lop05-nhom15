@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def plot_product_performance(df, metric='Tổng doanh thu'):
+def plot_product_performance(df, metric):
     """
-    Vẽ biểu đồ top 10 + nhóm các sản phẩm khác .
+    Vẽ biểu đồ top các sản phẩm + nhóm các sản phẩm khác .
     """
     # 1. Đảm bảo dữ liệu đã được sắp xếp giảm dần
     df_sorted = df.sort_values(by=metric, ascending=False).copy()
@@ -31,7 +31,7 @@ def plot_product_performance(df, metric='Tổng doanh thu'):
     fig, ax = plt.subplots(figsize=(10, 6))
     
     # Chọn màu
-    color = '#27AE60' if metric == 'Tổng doanh thu' else '#E67E22'
+    color = '#27AE60' if metric == 'Tổng giá trị giao dịch' else '#E67E22'
 
     # Vẽ biểu đồ ngang (barh)
     # Lưu ý: Matplotlib mặc định vẽ từ dưới lên, nên ta sẽ đảo trục sau
@@ -41,7 +41,8 @@ def plot_product_performance(df, metric='Tổng doanh thu'):
     ax.invert_yaxis()
 
     # Trang trí biểu đồ (Mô phỏng style gọn gàng)
-    ax.set_title(f'Top 10 sản phẩm theo {metric.lower()}', fontsize=14, fontweight='bold')
+    top_n = len(plot_data)
+    ax.set_title(f'Top {top_n} sản phẩm theo {metric.lower()}', fontsize=14, fontweight='bold')
     ax.set_xlabel(metric, fontsize=11)
     
     # Ẩn các đường viền (spines) phía trên và bên phải cho thoáng mắt
@@ -54,7 +55,7 @@ def plot_product_performance(df, metric='Tổng doanh thu'):
     # Thêm nhãn giá trị lên biểu đồ
     for i, v in enumerate(plot_data[metric]):
         # Định dạng tiền tệ hoặc số lượng
-        label = f"${v:,.0f}" if metric == 'Tổng doanh thu' else f"{v:,.0f}"
+        label = f"${v:,.0f}" if metric == 'Tổng giá trị giao dịch' else f"{v:,.0f}"
         
         # padding=3: khoảng cách giữa chữ và cột
         ax.text(v, i, f" {label}", va='center', fontsize=9, color='black')
