@@ -34,11 +34,12 @@ def clean_categorical(series: pd.Series, invalid_values):
     """
     return (
         series
-        .replace(invalid_values, np.nan)
-        .astype("string")          
+        .astype("string")
         .str.strip()
+        .str.lower()
+        .replace(invalid_values, np.nan)
+        .fillna("unknown")
         .str.title()
-        .fillna("Unknown")
     )
 
 # Làm sạch dữ liệu
@@ -50,7 +51,7 @@ def clean_data(df: pd.DataFrame):
         - Total Spent: 
             + Nếu chứa giá trị không hợp lệ mà có đầy đủ Quantity, Price Per Unit -> Điền theo công thức Quantity * Price Per Unit
             + Nếu chứa giá trị không hợp lệ mà thiếu Quantity hoặc Price Per Unit -> NaN
-    3. Làm sạch cột Transaction Date: Chứa giá trị không hợp lệ -> NaN
+    3. Làm sạch cột Transaction Date: Chứa giá trị không hợp lệ -> NaT
     4. Loại trùng lặp dựa vào cột Transaction ID
     """
 
@@ -63,12 +64,12 @@ def clean_data(df: pd.DataFrame):
 
     # Làm sạch file log
     with open(LOG_FILE, "w", encoding="utf-8") as f:
-            f.write("")  
+        f.write("")  
 
     # Các giá trị không hợp lệ
     invalid_values = [
-        "ERROR", "UNKNOWN", "NONE", "", "N/A",
-        "null", "NULL", "nan", "NaN"
+        "error", "unknown", "none", "", "n/a",
+        "null", "nan"
     ]
 
     # 1. Làm sạch các cột categorical
