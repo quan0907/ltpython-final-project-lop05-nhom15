@@ -106,7 +106,7 @@ def clean_data(df: pd.DataFrame):
 
     if cat_logs:
         with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write("TÓM TẮT LOGS TRONG QUÁ TRÌNH DATA CLEANING\n")
+            f.write("LOGS KẾT QUẢ QUÁ TRÌNH DATA CLEANING\n")
             for line in cat_logs:
                 f.write(line + "\n")
         for log in cat_logs:
