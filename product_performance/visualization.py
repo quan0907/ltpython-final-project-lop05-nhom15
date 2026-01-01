@@ -41,8 +41,7 @@ def plot_product_performance(df, metric):
     ax.invert_yaxis()
 
     # Trang trí biểu đồ (Mô phỏng style gọn gàng)
-    top_n = len(plot_data)
-    ax.set_title(f'Top {top_n} sản phẩm theo {metric.lower()}', fontsize=14, fontweight='bold')
+    ax.set_title(f'Top các sản phẩm theo {metric.lower()}', fontsize=14, fontweight='bold')
     ax.set_xlabel(metric, fontsize=11)
     
     # Ẩn các đường viền (spines) phía trên và bên phải cho thoáng mắt
@@ -62,3 +61,4 @@ def plot_product_performance(df, metric):
 
     plt.tight_layout()
     return fig
+
