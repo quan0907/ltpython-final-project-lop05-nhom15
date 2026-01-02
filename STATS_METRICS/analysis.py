@@ -12,7 +12,6 @@ def calculate_full_stats(df):
     desc_stats['median'] = target_col.median()
     desc_stats['mode'] = target_col.mode()[0]
     
-    # Sắp xếp và giữ lại đúng các cột bạn yêu cầu
     ordered_cols = ["count", "mean", "median", "mode", "min", "25%", "50%", "75%", "max"]
     return desc_stats[ordered_cols]
 

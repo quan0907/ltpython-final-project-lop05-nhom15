@@ -4,7 +4,7 @@ def plot_stat_distribution(df, column):
     fig, (ax_hist, ax_box) = plt.subplots(2, 1, figsize=(10, 7), 
                                           gridspec_kw={"height_ratios": (.7, .3)})
     
-    # Vẽ Histogram bằng Matplotlib thuần
+    # Vẽ Histogram
     ax_hist.hist(df[column], bins=20, color='skyblue', edgecolor='black')
     ax_hist.set_title(f'Distribution Analysis: {column}')
     ax_hist.set_ylabel('Frequency')
@@ -12,7 +12,7 @@ def plot_stat_distribution(df, column):
     # Loại bỏ NaN
     values = df[column].dropna()
 
-    # Vẽ Boxplot bằng Matplotlib thuần
+    # Vẽ Boxplot
     if len(values) > 0:
         ax_box.boxplot(
             values,
@@ -31,7 +31,7 @@ def plot_stat_distribution(df, column):
 def plot_heatmap(corr_matrix):
     fig, ax = plt.subplots(figsize=(8, 6))
     
-    # Sử dụng imshow của Matplotlib để thay thế Heatmap Seaborn
+    # Sử dụng imshow
     im = ax.imshow(corr_matrix, cmap='coolwarm')
     
     # Hiển thị thanh giá trị bên cạnh
